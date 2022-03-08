@@ -1,0 +1,32 @@
+{
+  "name": "recipe_api",
+  "version": "1.0.0",
+  "description": "Microservizio per le API delle ricette",
+  "main": "index.js",
+  "author": "Andrea Marini",
+  "license": "ISC",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "babel server --out-dir dist --delete-dir-on-start --source-maps inline --copy-files"
+  },
+  "dependencies": {
+    "express": "4.17.1",
+    "helmet": "4.6.0",
+    "referrer-policy": "1.2.0",
+    "express-openapi-validator": "4.13.2",
+    "dotenv": "10.0.0",
+    "pino": "7.2.0",
+    "pino-pretty": "7.2.0",
+    "cors": "2.8.5",
+    "mongoose": "6.2.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/node": "7.16.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3"
+  }
+}

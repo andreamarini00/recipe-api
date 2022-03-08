@@ -1,0 +1,180 @@
+openapi: 3.0.0
+info:
+  title: Recipe API
+  description: API per la gestione delle ricette.
+  version: 1.0.0
+servers:
+- url: http://localhost:8000/api/v1
+tags:
+- name: Recipe
+  description: API RESTful per la gestione delle ricette
+
+paths:
+  /recipe:
+    get:
+      tags:
+      - Recipe
+      description: Ritorna la lista di tutte le ricette presenti
+      parameters:
+      - name: name
+        in: query
+        required: false
+        description: Ricerca per nome ricetta
+        schema:
+          type: string
+      - name: offset
+        in: query
+        required: true
+        description: Offset
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        required: true
+        description: Limit
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Risposta
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ricetta'
+        400:
+          description: Errore
+          content:
+            application/json:
+              schema:
+                type: string
+    post:
+      tags:
+      - Recipe
+      description: Inserisce una nuova ricetta
+      requestBody:
+        required: true
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/NuovaRicetta'
+      responses:
+        200:
+          description: Risposta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ricetta'
+        400:
+          description: Errore
+          content:
+            application/json:
+              schema:
+                type: string
+          
+  /recipe/{id}:
+    patch:
+      tags:
+      - Recipe
+      description: Elimina la ricetta scelta
+      parameters:
+      - name: id
+        in: path
+        description: Id della ricetta da eliminare
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/ModificaIngredienti'
+      responses:
+        200:
+          description: Risposta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ricetta'
+        400:
+          description: Errore
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      tags:
+      - Recipe
+      description: Elimina la ricetta scelta
+      parameters:
+      - name: id
+        in: path
+        description: Id della ricetta da eliminare
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Risposta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ricetta'
+        400:
+          description: Errore
+          content:
+            application/json:
+              schema:
+                type: string
+              
+
+components:
+  schemas:
+    Ricetta:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Identificativo ricetta
+        name:
+          type: string
+          description: Nome ricetta
+        ingredients:
+          type: array
+          description: Lista degli ingredienti
+          items:
+            type: string
+        image:
+          description: Immagine ricetta (base 64)
+          type: string
+          format: binary
+    NuovaRicetta:
+      type: object
+      required:
+      - name
+      - ingredients
+      properties:
+        name:
+          type: string
+          description: Nome ricetta
+        ingredients:
+          type: array
+          description: Lista degli ingredienti
+          items:
+            type: string
+        image:
+          description: Immagine ricetta (base 64)
+          type: string
+          format: binary
+    ModificaIngredienti:
+      type: object
+      required:
+      - ingredients
+      properties:
+        ingredients:
+          type: array
+          description: Lista degli ingredienti
+          items:
+            type: string
